@@ -1,5 +1,6 @@
 # VotingBlock
 UGA Hacks X project
+=======================================================================================================
 
 Decentralized Poll sharing platform.
 
@@ -16,6 +17,7 @@ Anyone with a connected wallet (e.g., Coinbase, MetaMask) can interact with the 
 =======================================================================================================
 
 Summary of Project Log
+
 Friday - Brainstorming and diving labor
 Saturday - Bulk of our work
 Sunday morning - Fine tuning
