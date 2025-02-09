@@ -1,5 +1,6 @@
 # VotingBlock
 UGA Hacks X project
+
 =======================================================================================================
 
 Decentralized Poll sharing platform.
