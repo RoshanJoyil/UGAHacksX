@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-
+import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import "./App.css";
 import {
   createAdminPoll,
@@ -11,7 +11,6 @@ import {
   getPollResults,
 } from "./utils/viem";
 import { uploadToPinata } from "./utils/pinata";
-import { ethers } from "ethers"; // Added Ethers.js
 
 interface Poll {
   id: number;
@@ -22,7 +21,10 @@ interface Poll {
   createdByAdmin: boolean;
 }
 
+// Sidebar Component with Authentication Logic
 const Sidebar: React.FC = () => {
+  const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
+
   return (
     <div className="sidebar">
       <Link to="/verified" className="sidebar-link">
@@ -33,6 +35,24 @@ const Sidebar: React.FC = () => {
         <span className="icon">👥</span>
         <span>Community</span>
       </Link>
+      {!isAuthenticated ? (
+        <button onClick={() => loginWithRedirect()} className="sidebar-link">
+          Login
+        </button>
+      ) : (
+        <button
+          onClick={() =>
+            logout({
+              logoutParams: {
+                returnTo: window.location.origin,
+              },
+            })
+          }
+          className="sidebar-link"
+        >
+          Logout
+        </button>
+      )}
     </div>
   );
 };
@@ -158,18 +178,6 @@ const CommunityPage: React.FC = () => {
 };
 
 const CreatePollButton: React.FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
-  const [account, setAccount] = useState<string>("");
-
-  useEffect(() => {
-    if (window.ethereum) {
-      window.ethereum
-        .request({ method: "eth_requestAccounts" })
-        .then((accounts: string[]) => {
-          setAccount(accounts[0]);
-        });
-    }
-  }, []);
-
   const handleCreatePoll = async () => {
     const title = prompt("Enter poll title:");
     if (!title) return;
@@ -209,42 +217,30 @@ const CreatePollButton: React.FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
 };
 
 const App: React.FC = () => {
-  const [account, setAccount] = useState<string>("");
-
-  const connectWallet = async () => {
-    if (window.ethereum) {
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      setAccount(accounts[0]);
-    } else {
-      alert("Please install MetaMask or use WalletConnect.");
-    }
-  };
-
   return (
-    <Router>
-      <div className="app-container">
-        <Sidebar />
-        <div className="wallet-connection">
-          <button onClick={connectWallet}>
-            {account
-              ? `Connected: ${account.slice(0, 6)}...${account.slice(-4)}`
-              : "Connect Wallet"}
-          </button>
+    <Auth0Provider
+      domain="dev-eibwnehpajd0cl2p.us.auth0.com"
+      clientId="ziq7R7rCUVahOpfaevqLgrycK54bi80y"
+      authorizationParams={{
+        redirect_uri: "http://localhost:3000/verified",
+      }}
+    >
+      <Router>
+        <div className="app-container">
+          <Sidebar />
+          <Routes>
+            <Route path="/verified" element={<VerifiedPage />} />
+            <Route path="/community" element={<CommunityPage />} />
+            <Route
+              path="/poll/:id"
+              element={
+                <div className="content">This is a dedicated poll page.</div>
+              }
+            />
+          </Routes>
         </div>
-        <Routes>
-          <Route path="/verified" element={<VerifiedPage />} />
-          <Route path="/community" element={<CommunityPage />} />
-          <Route
-            path="/poll/:id"
-            element={
-              <div className="content">This is a dedicated poll page.</div>
-            }
-          />
-        </Routes>
-      </div>
-    </Router>
+      </Router>
+    </Auth0Provider>
   );
 };
 
