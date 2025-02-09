@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "jsx": "react",
+    "strict": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,                           // Add this line to ensure no output files are generated
+    "allowImportingTsExtensions": true        // Enable importing with `.tsx` extensions
+  },
+  "include": ["src", "../fe/src/utils"],
+  "exclude": ["node_modules", "dist"]
+}
