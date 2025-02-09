@@ -2,7 +2,8 @@ pragma solidity ^0.8.0;
 
 contract Polling {
     struct Poll {
-        string ipfsHash; // IPFS hash of the poll metadata (question and options)
+        string question; // Add this to store the poll question
+        string ipfsHash; // IPFS hash of the poll metadata (for options, etc.)
         string[] options; // Array of poll options
         mapping(uint => uint) votes; // Tracks vote counts for each option
         mapping(address => bool) hasVoted; // Tracks whether an address has voted
@@ -91,5 +92,11 @@ contract Polling {
     function getOptions(uint _pollId) public view returns (string[] memory) {
         require(polls[_pollId].exists, "Poll does not exist");
         return polls[_pollId].options;
+    }
+
+    // Get the question of a poll
+    function getQuestion(uint _pollId) public view returns (string memory) {
+        require(polls[_pollId].exists, "Poll does not exist");
+        return polls[_pollId].ipfsHash; // Assuming the question is stored in the IPFS hash
     }
 }
