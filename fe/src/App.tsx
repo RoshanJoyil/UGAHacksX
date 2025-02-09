@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 
@@ -56,6 +56,7 @@ const getOptions = async () => {
 const Sidebar: React.FC = () => {
   const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
   const [buttonPressed, setButtonPressed] = useState(false);
+
   return (
     <div className="sidebar">
       <Link to="/verified" className="sidebar-link">
@@ -80,6 +81,8 @@ const Sidebar: React.FC = () => {
           }}
           className="sidebar-link"
         >
+      {!isAuthenticated ? (
+        <button onClick={() => loginWithRedirect()} className="sidebar-link">
           Login
         </button>
       ) : (
@@ -381,6 +384,7 @@ const App: React.FC = () => {
         </Routes>
       </div>
     </Router>
+
   );
 };
 
