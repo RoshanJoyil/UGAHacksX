@@ -13,7 +13,7 @@ Poll metadata (e.g., questions and options) is stored on IPFS and pinned using P
 
 Anyone with a connected wallet (e.g., Coinbase, MetaMask) can interact with the system, making it accessible to all Ethereum users.
 
-=================================================================================================================================================
+=======================================================================================================
 
 Summary of Project Log
 Friday - Brainstorming and diving labor
