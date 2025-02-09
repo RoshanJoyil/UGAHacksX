@@ -4,7 +4,7 @@ const PINATA_API_KEY = "b75ab6fa44ee82062f0e";
 const PINATA_SECRET_API_KEY = "c1565aa5bf817ad63d6bcee96289f7b0bc6acaf4591025e07feb2216be1d1f93";
 
 interface PollData {
-  title: string;
+  question: string;
   options: string[];
 }
 
