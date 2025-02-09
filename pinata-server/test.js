@@ -18,7 +18,7 @@ async function uploadPollToPinata(pollData) {
 // Example usage
 const pollData = {
     question: "What is your favorite ice cream flavor?",
-    options: ["Chocolate", "Vanilla", "Strawberry", "Cookies and Cream"],
+    options: ["Chocolate", "Vanilla", "Strawberry"],
     createdBy: "0x1234567890abcdef1234567890abcdef12345678",
     timestamp: new Date().toISOString(),
 };
