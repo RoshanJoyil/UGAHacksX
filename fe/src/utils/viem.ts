@@ -2,7 +2,6 @@ import { createPublicClient, createWalletClient, custom, http } from 'viem';
 import { sepolia } from 'viem/chains';
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from './contract';
 import type { Poll, ContractPoll } from './types';
-import WalletConnectProvider from "@walletconnect/web3-provider";
 
 // Create public and wallet clients
 export const publicClient = createPublicClient({
