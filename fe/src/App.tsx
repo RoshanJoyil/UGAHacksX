@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import { motion } from "framer-motion";
+
 import "./App.css";
 import {
   createAdminPoll,
@@ -10,6 +11,7 @@ import {
   getPollResults,
 } from "./utils/viem";
 import { uploadToPinata } from "./utils/pinata";
+import { ethers } from "ethers"; // Added Ethers.js
 
 interface Poll {
   id: number;
@@ -156,6 +158,18 @@ const CommunityPage: React.FC = () => {
 };
 
 const CreatePollButton: React.FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
+  const [account, setAccount] = useState<string>("");
+
+  useEffect(() => {
+    if (window.ethereum) {
+      window.ethereum
+        .request({ method: "eth_requestAccounts" })
+        .then((accounts: string[]) => {
+          setAccount(accounts[0]);
+        });
+    }
+  }, []);
+
   const handleCreatePoll = async () => {
     const title = prompt("Enter poll title:");
     if (!title) return;
@@ -195,16 +209,38 @@ const CreatePollButton: React.FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
 };
 
 const App: React.FC = () => {
+  const [account, setAccount] = useState<string>("");
+
+  const connectWallet = async () => {
+    if (window.ethereum) {
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      setAccount(accounts[0]);
+    } else {
+      alert("Please install MetaMask or use WalletConnect.");
+    }
+  };
+
   return (
     <Router>
       <div className="app-container">
         <Sidebar />
+        <div className="wallet-connection">
+          <button onClick={connectWallet}>
+            {account
+              ? `Connected: ${account.slice(0, 6)}...${account.slice(-4)}`
+              : "Connect Wallet"}
+          </button>
+        </div>
         <Routes>
           <Route path="/verified" element={<VerifiedPage />} />
           <Route path="/community" element={<CommunityPage />} />
           <Route
             path="/poll/:id"
-            element={<div className="content">This is a dedicated poll page.</div>}
+            element={
+              <div className="content">This is a dedicated poll page.</div>
+            }
           />
         </Routes>
       </div>
