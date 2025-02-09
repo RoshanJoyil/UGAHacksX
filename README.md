@@ -12,3 +12,10 @@ Events like PollCreated, VoteCast, and PollClosed are emitted, providing a clear
 Poll metadata (e.g., questions and options) is stored on IPFS and pinned using Pinata, ensuring that the data is publicly accessible while avoiding centralized control.
 
 Anyone with a connected wallet (e.g., Coinbase, MetaMask) can interact with the system, making it accessible to all Ethereum users.
+
+=================================================================================================================================================
+
+Summary of Project Log
+Friday - Brainstorming and diving labor
+Saturday - Bulk of our work
+Sunday morning - Fine tuning
